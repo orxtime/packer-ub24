@@ -52,6 +52,9 @@ source "xenserver-iso" "ubuntu" {
     "http/user-data",
   ]
 
+
+  ## TODO: Add modprobe.blacklist=xen_fbfront to grub
+  ## It is bug: https://github.com/coreos/bugs/issues/208#issuecomment-96046113
   # http_directory = "http"
   # boot_wait = "3s"
   # boot_command = [
