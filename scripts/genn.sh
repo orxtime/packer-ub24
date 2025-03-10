@@ -10,10 +10,10 @@ if [ ! -f ./data/vm.json ]; then
   GENN="$(/tmp/genn -of animals)"
   GENN_SLUG="$(echo "$GENN" | iconv -t ascii//TRANSLIT | sed -r s/[^a-zA-Z0-9]+/-/g | sed -r s/^-+\|-+$//g | tr A-Z a-z)"
   # export result to json and save to file
-  jq -n --arg name "$GENN" --arg slug "$GENN_SLUG" '{"vm-name":$name, "vm-slug":$slug}'
+  jq -n --arg name "$GENN" --arg slug "$GENN_SLUG" '{"vmName":$name, "vmSlug":$slug}'
 else
   VM_SETTINGS=$(cat ./data/vm.json)
-  GENN=$(echo $VM_SETTINGS | jq -r ".\"vm-name\"")
-  GENN_SLUG=$(echo $VM_SETTINGS | jq -r ".\"vm-slug\"")
-  jq -n --arg name "$GENN" --arg slug "$GENN_SLUG" '{"vm-name":$name, "vm-slug":$slug}'
+  GENN=$(echo $VM_SETTINGS | jq -r ".\"vmName\"")
+  GENN_SLUG=$(echo $VM_SETTINGS | jq -r ".\"vmSlug\"")
+  jq -n --arg name "$GENN" --arg slug "$GENN_SLUG" '{"vmName":$name, "vmSlug":$slug}'
 fi

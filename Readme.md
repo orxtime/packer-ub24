@@ -28,12 +28,12 @@ export XEN_SR_ISO=""
 ### Write values to packer variable values file
 
 ```bash
-cat <<EOF > ./variables.auto.pkrvars.hcl
-xen-user     = "$XEN_USER"
-xen-password = "$XEN_PASSWORD"
-xen-host     = "$XEN_HOST"
-xen-sr       = "$XEN_SR"
-xen-sr-iso   = "$XEN_SR_ISO"
+cat <<EOF > ./xen.pkrvars.hcl
+remote_username     = "$XEN_USER"
+remote_password     = "$XEN_PASSWORD"
+remote_host         = "$XEN_HOST"
+sr_name             = "$XEN_SR"
+sr_iso_name         = "$XEN_SR_ISO"
 EOF
 ```
 
@@ -41,7 +41,7 @@ EOF
 
 ```bash
 # Run (This will add the initial settings for the VM template)
-. ./scripts/cloud-init-gen.sh
+./scripts/cloud-init-gen.sh
 ```
 
 ## Start building VM Template
@@ -51,11 +51,19 @@ EOF
 This will install the necessary plugins for packer.
 
 ```bash
-packer init ubuntu-24.pkr.hcl
+packer init -upgrade -var-file="xen.pkrvars.hcl" -var-file="data/vm.json" .
 ```
 
-### Validate your build with next command
+### Build start
 
 ```bash
-packer validate ubuntu-24.pkr.hcl
+packer build -var-file="xen.pkrvars.hcl" -var-file="data/vm.json" .
+```
+
+## Clear project
+
+```bash
+rm -rf ./data
+rm -rf ./http
+rm -rf xen.pkrvars.hcl
 ```
