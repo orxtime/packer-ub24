@@ -58,7 +58,7 @@ autoinstall:
   # Configure the initial user for the system.
   identity:
     hostname: $VM_SLUG
-    password: "$PASSWD_HSH"
+    password: $PASSWD_HSH
     username: $USER
 
   # Configure SSH for the installed system.

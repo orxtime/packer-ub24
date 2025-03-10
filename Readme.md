@@ -60,6 +60,20 @@ packer init -upgrade -var-file="xen.pkrvars.hcl" -var-file="data/vm.json" .
 packer build -var-file="xen.pkrvars.hcl" -var-file="data/vm.json" .
 ```
 
+### SSH Connection by username and password
+
+Get credentials
+
+```bash
+cat <<EOF
+---
+For SSH connection use this data:
+---
+> Username: $(cat data/vm.json | jq -r '.vmUser')
+> Password: $(cat data/vm.json | jq -r '.vmPass')
+EOF
+```
+
 ## Clear the project
 
 ```bash
