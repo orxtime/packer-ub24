@@ -1,5 +1,10 @@
+#!/bin/bash
+
 mkdir -p ./data
 mkdir -p ./http
+
+# mkpasswd install
+apt-get update && apt-get install whois -y
 
 export USER="ubuntu"
 export PASSWD=$(tr -dc A-Za-z0-9 </dev/urandom | head -c 13)

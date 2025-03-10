@@ -1,3 +1,5 @@
+#!/bin/bash
+
 if [ ! -f ./data/vm.json ]; then
   # Create directory if not exists
   mkdir -p ./data

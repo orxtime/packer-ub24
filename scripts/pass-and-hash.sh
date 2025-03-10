@@ -1,3 +1,5 @@
+#!/bin/bash
+
 export PASSWD=$(tr -dc A-Za-z0-9 </dev/urandom | head -c 13)
 export PASSWD_HSH="$(mkpasswd --method=SHA-512 --rounds=4096 \"$PASSWD\")"
 
