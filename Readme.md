@@ -25,7 +25,7 @@ export XEN_SR=""
 export XEN_SR_ISO=""
 ```
 
-### Write values to packer variable values file
+### Writing values to the packer variable values file
 
 ```bash
 cat <<EOF > ./xen.pkrvars.hcl
@@ -37,7 +37,7 @@ sr_iso_name         = "$XEN_SR_ISO"
 EOF
 ```
 
-### Create values of variables
+### Creating variable values
 
 ```bash
 # Run (This will add the initial settings for the VM template)
@@ -46,21 +46,21 @@ EOF
 
 ## Start building VM Template
 
-### For first run use this command.
+### For the first run, use this command
 
-This will install the necessary plugins for packer.
+This will allow you to install the necessary plugins for packer.
 
 ```bash
 packer init -upgrade -var-file="xen.pkrvars.hcl" -var-file="data/vm.json" .
 ```
 
-### Build start
+### Start of the build
 
 ```bash
 packer build -var-file="xen.pkrvars.hcl" -var-file="data/vm.json" .
 ```
 
-## Clear project
+## Clear the project
 
 ```bash
 rm -rf ./data
