@@ -83,6 +83,10 @@ autoinstall:
     - curtin in-target -- dpkg -i /tmp/install-dpkg/xe-guest-utilities_8.4.0-1_amd64.deb
     - curtin in-target -- rm -rf /tmp/install-dpkg
     - curtin in-target -- systemctl enable xe-linux-distribution
+    # - curtin in-target -- ssh settings (root login, no prompts)
+    # - curtin in-target -- docker install
+    # - curtin in-target -- rke requirements
+    # - curtin in-target -- rke install
 EOF
 
 jq -n \
