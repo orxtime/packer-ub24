@@ -10,11 +10,6 @@ sudo apt update && sudo apt install packer
 
 ## Set enviroments
 
-```bash
-# Run (This will add the initial settings for the VM template)
-./scripts/cloud-init-gen.sh
-```
-
 ### Set settings for connection to xen host
 
 ```bash
@@ -30,36 +25,37 @@ export XEN_SR=""
 export XEN_SR_ISO=""
 ```
 
-### Set settings for new VM
+### Write values to packer variable values file
 
 ```bash
-# User VM
-export VM_USER="ubuntu"
-# User Password VM
-export VM_PASS=$(cat ./data/credentials.json | jq -r ".password")
-# User Password Hash VM (ubuntu stores password as hashes)
-export VM_HASH=$(cat ./data/credentials.json | jq -r ".hash")
-# VM Name (human friendly)
-export VM_NAME=$(cat ./data/vm.json | jq -r ".name")
-# VM Slaug (without spaces, lower case, kebab case)
-export VM_SLUG=$(cat ./data/vm.json | jq -r ".slug")
-
-```
-
-### Create file with values for packer variables
-
-```bash
-cat <<EOF > ./terraform.tfvars
-xen-user     = "$XEN_USER$"
+cat <<EOF > ./variables.auto.pkrvars.hcl
+xen-user     = "$XEN_USER"
 xen-password = "$XEN_PASSWORD"
 xen-host     = "$XEN_HOST"
 xen-sr       = "$XEN_SR"
 xen-sr-iso   = "$XEN_SR_ISO"
-# ------------------------------------
-vm-user      = "$VM_USER"
-vm-pass      = "$VM_PASS"
-vm-hash      = "$VM_HASH"
-vm-name      = "$VM_NAME"
-vm-slug      = "$VM_SLUG"
 EOF
+```
+
+### Create values of variables
+
+```bash
+# Run (This will add the initial settings for the VM template)
+. ./scripts/cloud-init-gen.sh
+```
+
+## Start building VM Template
+
+### For first run use this command.
+
+This will install the necessary plugins for packer.
+
+```bash
+packer init ubuntu-24.pkr.hcl
+```
+
+### Validate your build with next command
+
+```bash
+packer validate ubuntu-24.pkr.hcl
 ```

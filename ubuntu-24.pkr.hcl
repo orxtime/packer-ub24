@@ -27,50 +27,6 @@ local "url_ISO" {
   expression = regex("[A-Za-z0-9]+[\\s\\*]+(ubuntu-${local.ub_version}.(\\d+)-live-server-amd64.iso)", data.http.sha256_HTTP.body)
 }
 
-data "external" "name_vm" {
-  program = [
-    "bash", "${path.module}/scripts/cloud-init-gen.sh"
-  ]
-}
-
-
-# Variables
-variable "xen-host" {
-  type        = string
-  description = "The ip or fqdn of your XenServer. This will be pulled from the env var 'PKR_VAR_XAPI_HOST'"
-  sensitive   = true
-  default     = null
-}
-
-variable "xen-user" {
-  type        = string
-  description = "The username used to interact with your XenServer. This will be pulled from the env var 'PKR_VAR_XAPI_USERNAME'"
-  sensitive   = true
-  default     = null
-
-}
-
-variable "xen-password" {
-  type        = string
-  description = "The password used to interact with your XenServer. This will be pulled from the env var 'PKR_VAR_XAPI_PASSWORD'"
-  sensitive   = true
-  default     = null
-}
-
-variable "xen-sr-iso" {
-  type        = string
-  default     = ""
-  description = "The ISO-SR to packer will use"
-
-}
-
-variable "xen-sr" {
-  type        = string
-  default     = ""
-  description = "The name of the SR to packer will use"
-}
-
-
 # Builder
 source "xenserver-iso" "ubuntu" {
   iso_checksum = "sha256:${local.sha256_ISO[0]}"
@@ -86,7 +42,7 @@ source "xenserver-iso" "ubuntu" {
 
   clone_template = local.ub_template
 
-  vm_name        = "Ubuntu ${local.ub_version} PCK ${data.external.name_vm.result.name}"
+  vm_name        = "Ubuntu ${local.ub_version} PCK ${var.vm-name}"
   vm_description = "Build started: ${local.build}"
   vm_memory      = 4096
   disk_size      = 20480
@@ -106,7 +62,7 @@ source "xenserver-iso" "ubuntu" {
   vm_tags = ["ubuntu ${local.ub_version}", "packer"]
 
   ssh_username           = "ubuntu"
-  ssh_password           = data.external.name_vm.result.credentials.password
+  ssh_password           = var.vm-pass
   ssh_wait_timeout       = "60000s"
   ssh_handshake_attempts = 10000
 
