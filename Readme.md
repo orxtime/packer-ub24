@@ -41,7 +41,7 @@ EOF
 
 ```bash
 # Run (This will add the initial settings for the VM template)
-./scripts/cloud-init-gen.sh
+scripts/cloud-init-gen.sh
 ```
 
 ## Start building VM Template
@@ -65,13 +65,7 @@ packer build -var-file="xen.pkrvars.hcl" -var-file="data/vm.json" .
 Get credentials
 
 ```bash
-cat <<EOF
----
-For SSH connection use this data:
----
-> Username: $(cat data/vm.json | jq -r '.vmUser')
-> Password: $(cat data/vm.json | jq -r '.vmPass')
-EOF
+scripts/getcred.sh
 ```
 
 ## Clear the project
